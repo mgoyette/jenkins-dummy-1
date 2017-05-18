@@ -3,7 +3,7 @@
 pipeline {
     agent none
     stages {
-        stage("build") {
+        stage("build libstack") {
             agent any
             steps {
                 parallel (
@@ -32,7 +32,7 @@ pipeline {
                 )
             }
         }
-        stage("build test") {
+        stage("build stacksystemtest") {
             agent any
             steps {
                 unstash 'result'
@@ -40,7 +40,21 @@ pipeline {
                 stash 'result-test'
             }
         }
-        stage("test") {
+        stage("run network tests") {
+            agent any
+            steps {
+                parallel (
+                    'register' : { echo 'register-test' },
+                    'call' : { unstash 'none' },
+                )
+            }
+            post {
+                failure {
+                    currentBuild.result = "UNSTABLE"
+                }
+            }
+        }
+        stage("execute test") {
             agent any
             steps {
                 parallel (
