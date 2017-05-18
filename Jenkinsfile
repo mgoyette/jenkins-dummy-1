@@ -8,16 +8,16 @@ pipeline {
             }
         }
         stage("Testing") {
-            steps {
-                parallel (
-                    "Unit" : {
-                        //do some stuff
-                    },
-                    "Acceptance" : {
-                        // Do some other stuff in parallel
-                    }
-                )
-            }
+            parallel (
+                "Unit" : {
+                    echo "unit"
+                    //do some stuff
+                },
+                "Acceptance" : {
+                    echo "acceptance"
+                    // Do some other stuff in parallel
+                }
+            )
         }
         stage('Deploy') {
             steps {
