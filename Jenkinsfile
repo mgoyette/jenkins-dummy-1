@@ -34,9 +34,7 @@ pipeline {
             }
             post {
                 always {
-                    dir('win32') {
-                        deleteDir()
-                    }
+                    deleteDir()
                 }
             }
         }
