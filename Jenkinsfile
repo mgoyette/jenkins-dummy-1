@@ -3,7 +3,7 @@
 pipeline {
     agent none
     stages {
-        stage("build libstack") {
+        stage("libstack") {
             agent any
             steps {
                 parallel (
@@ -32,14 +32,14 @@ pipeline {
                 )
             }
         }
-        stage("Run libstack unit tests") {
+        stage("libstack unit tests") {
             agent any
             steps {
                 unstash 'result'
                 echo 'running tests'
             }
         }
-        stage("build stacksystemtest") {
+        stage("stacksystemtest") {
             agent any
             steps {
                 unstash 'result'
@@ -47,7 +47,7 @@ pipeline {
                 stash 'result-test'
             }
         }
-        stage("run network tests") {
+        stage("network tests") {
             agent any
             steps {
                 parallel (
@@ -78,7 +78,7 @@ pipeline {
                 )
             }
         }
-        stage("execute acceptance tests") {
+        stage("acceptance tests") {
             agent any
             when {
                 expression {
