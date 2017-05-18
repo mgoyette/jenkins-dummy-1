@@ -33,6 +33,7 @@ pipeline {
             }
         }
         stage("build test") {
+            agent any
             steps {
                 unstash 'result'
                 sh 'touch ex2.txt'
