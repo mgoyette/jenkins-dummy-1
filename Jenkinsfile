@@ -4,10 +4,12 @@ pipeline {
     agent none
     stages {
         stage("build") {
+            agent any
             steps {
                 parallel (
                     'win32' : {
-                        agent('any') {
+                        node('master') {
+                            deleteDir()
                             dir('win32') {
                                 echo 'win32'
                                 sh 'touch ex.txt'
@@ -22,27 +24,26 @@ pipeline {
                     },
                     "win64" : {
                         node('master') {
+                            deleteDir()
                             echo "win64"
                         }
                     },
                     "android" : {
                         node('master') {
+                            deleteDir()
                             echo "android"
                         }
                     }
                 )
             }
-            post {
-                always {
-                    deleteDir()
-                }
-            }
         }
         stage("test") {
+            agent any
             steps {
                 parallel (
                     'unit' : {
                         node('master') {
+                            deleteDir()
                             dir('unit') {
                                 unstash 'result'
                                 pwd()
@@ -52,6 +53,7 @@ pipeline {
                     },
                     'acceptance' : {
                         node('master') {
+                            deleteDir()
                             dir('acceptance') {
                                 unstash 'result-test'
                                 pwd()
@@ -59,11 +61,6 @@ pipeline {
                         }
                     }
                 )
-            }
-            post {
-                always {
-                    deleteDir()
-                }
             }
         }
     }
