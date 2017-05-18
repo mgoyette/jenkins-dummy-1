@@ -3,39 +3,19 @@
 pipeline {
     agent none
     stages {
-        stage("build") {
-            agent any
+        stage("build win32") {
+            agent { node 'master' }
             steps {
-                parallel (
-                    'win32' : {
-                        node('master') {
-                            deleteDir()
-                            dir('win32') {
-                                echo 'win32'
-                                sh 'touch ex.txt'
-                                stash 'result'
-
-                                echo 'win32-tests'
-                                unstash 'result'
-                                sh 'touch ex2.txt'
-                                stash 'result-test'
-                            }
-                        }
-                    },
-                    "win64" : {
-                        node('master') {
-                            deleteDir()
-                            echo "win64"
-                        }
-                    },
-                    "android" : {
-                        node('master') {
-                            deleteDir()
-                            echo "android"
-                        }
-                    }
-                )
+                deleteDir()
+                dir('win32') {
+                    echo 'win32'
+                    sh 'touch ex.txt'
+                    stash 'result'
+                }
             }
+        }
+        stage("build win32 tests") {
+            agent { node 'master' }
         }
         stage("test") {
             agent any
