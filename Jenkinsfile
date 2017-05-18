@@ -43,15 +43,20 @@ pipeline {
         stage("run network tests") {
             agent any
             steps {
-                parallel (
-                    'register' : { echo 'register-test' },
-                    'call' : { unstash 'none' },
-                )
+                try {
+                    parallel (
+                        'register' : { echo 'register-test' },
+                        'call' : { unstash 'none' },
+                    )
+                }
+                catch(all) {
+                    currentBuild.result = "UNSTABLE"
+                }
             }
             post {
                 failure {
                     script {
-                        currentBuild.result = "UNSTABLE"
+                        
                     }
                 }
             }
