@@ -7,7 +7,8 @@ pipeline {
             steps {
                 parallel (
                     'win32' : {
-                        node any {
+                        node any 
+                        steps {
                             dir('win32') {
                                 echo 'win32'
                                 sh 'touch ex.txt'
