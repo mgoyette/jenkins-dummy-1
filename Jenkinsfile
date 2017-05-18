@@ -54,7 +54,7 @@ pipeline {
                         post {
                             always {
                                 dir('unit') {
-                                    deleteDir()
+                                    sh 'ls'
                                 }
                             }
                         }
@@ -64,13 +64,12 @@ pipeline {
                             dir('acceptance') {
                                 unstash 'result-test'
                                 pwd()
-                                sh 'ls'
                             }
                         }
                         post {
                             always {
                                 dir('acceptance') {
-                                    deleteDir()
+                                    sh 'ls'
                                 }
                             }
                         }
