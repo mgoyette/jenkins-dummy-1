@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('clone-1', wait:false){
+        stage("clone-1", wait:false){
             steps {
                 echo 'clone-1'
             }
@@ -20,6 +20,28 @@ pipeline {
         stage('clone-4', wait:false){
             steps {
                 echo 'clone-4'
+            }
+        }
+    }
+}
+pipeline {
+    agent any 
+
+    stages {
+        stage('Build') { 
+            steps { 
+                sh 'make' 
+            }
+        }
+        stage('Test'){
+            steps {
+                sh 'make check'
+                junit 'reports/**/*.xml' 
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make publish'
             }
         }
     }
