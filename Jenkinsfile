@@ -16,6 +16,13 @@ pipeline {
         }
         stage("build win32 tests") {
             agent { node 'master' }
+            steps {
+                dir('libtest') {
+                    deleteDir()
+                    unstash 'result'
+                    sh 'ls'
+                }
+            }
         }
         stage("test") {
             agent any
