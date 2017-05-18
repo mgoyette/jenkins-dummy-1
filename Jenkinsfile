@@ -89,7 +89,10 @@ pipeline {
                 deleteDir()
                 dir('acceptance') {
                     unstash 'result-test'
-                    sh 'ls'
+                    script {
+                        tests = ['1':{echo '1'}, '2':{echo '1'}, '3':{echo '1'}, '4':{echo '1'}]
+                        parallel (tests)
+                    }
                 }
             }
         }
