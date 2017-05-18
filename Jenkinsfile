@@ -21,7 +21,9 @@ pipeline {
                         }
                         post {
                             always {
-                                sh 'ls'
+                                dir('win32') {
+                                    sh 'ls'
+                                }
                             }
                         }
                     },
