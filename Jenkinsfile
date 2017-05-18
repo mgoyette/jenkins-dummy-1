@@ -90,7 +90,7 @@ pipeline {
                 dir('acceptance') {
                     unstash 'result-test'
                     script {
-                        tests = ['1':{echo '1'}, '2':{echo '1'}, '3':{echo '1'}, '4':{echo '1'}]
+                        tests = ['1':{echo '1'}, '2':{echo '2'}, '3':{echo '3'}, '4':{echo '4'}]
                         parallel (tests)
                     }
                 }
