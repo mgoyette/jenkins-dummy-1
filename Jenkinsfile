@@ -44,8 +44,26 @@ pipeline {
             agent any
             steps {
                 parallel (
-                    'register' : { echo 'register-test' },
-                    'call' : { unstash 'none' },
+                    'register' : { 
+                        script {
+                            try {
+                                echo 'register-test'
+                            }
+                            catch(all) {
+                                currentBuild.result = 'UNSTABLE'
+                            }
+                        }
+                    },
+                    'call' : {
+                        script {
+                            try {
+                                unstash 'none'
+                            }
+                            catch(all) {
+                                currentBuild.result = 'UNSTABLE'
+                            } 
+                        }
+                    },
                 )
                 
             }
