@@ -7,18 +7,16 @@ pipeline {
             steps {
                 parallel (
                     'win32' : {
-                        node any {
-                            steps {
-                                dir('win32') {
-                                    echo 'win32'
-                                    sh 'touch ex.txt'
-                                    stash 'result'
+                        node('any') {
+                            dir('win32') {
+                                echo 'win32'
+                                sh 'touch ex.txt'
+                                stash 'result'
 
-                                    echo 'win32-tests'
-                                    unstash 'result'
-                                    sh 'touch ex2.txt'
-                                    stash 'result-test'
-                                }
+                                echo 'win32-tests'
+                                unstash 'result'
+                                sh 'touch ex2.txt'
+                                stash 'result-test'
                             }
                         }
                         post {
