@@ -76,6 +76,11 @@ pipeline {
         stage("execute test") {
             agent any
             steps {
+                when {
+                    expression {
+                        currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+                    }
+                }
                 parallel (
                     'unit' : {
                         node('master') {
