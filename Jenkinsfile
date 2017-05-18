@@ -32,7 +32,7 @@ pipeline {
                 )
             }
         }
-        stage("libstack unit tests") {
+        stage("unit tests") {
             agent any
             steps {
                 unstash 'result'
