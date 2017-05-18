@@ -1,4 +1,4 @@
-parallel {
+parallel (
     'win32' : {
         node {
             stage('build') {
@@ -24,8 +24,8 @@ parallel {
             echo "android"
         }
     }
-}
-parallel {
+)
+parallel (
     "unit-test" : {
         node {
             unstash 'result'
@@ -38,4 +38,4 @@ parallel {
             sh 'ls'
         }
     }
-}
+)
