@@ -58,7 +58,7 @@ pipeline {
                     'call' : {
                         script {
                             try {
-                                unstash 'none'
+                                echo 'call-test'
                             }
                             catch(all) {
                                 echo 'an error occured, setting to UNSTABLE'
