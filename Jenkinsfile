@@ -19,6 +19,11 @@ pipeline {
                                 stash 'result-test'
                             }
                         }
+                        post {
+                            always {
+                                sh 'ls'
+                            }
+                        }
                     },
                     "win64" : {
                         node('master') {
@@ -46,7 +51,9 @@ pipeline {
                         }
                         post {
                             always {
-                                deleteDir()
+                                dir('unit') {
+                                    deleteDir()
+                                }
                             }
                         }
                     },
@@ -60,7 +67,9 @@ pipeline {
                         }
                         post {
                             always {
-                                deleteDir()
+                                dir('acceptance') {
+                                    deleteDir()
+                                }
                             }
                         }
                     }
