@@ -32,14 +32,20 @@ parallel (
 parallel (
     "unit-test" : {
         node {
-            unstash 'result'
-            sh 'ls'
+            dir('unit') {
+                unstash 'result'
+                pwd
+                sh 'ls'
+            }
         }
     },
     "acceptance-test" : {
-        node { 
-            unstash 'result-test'
-            sh 'ls'
+        node {
+            dir('acceptance') {
+                unstash 'result-test
+                pwd
+                sh 'ls'
+            }
         }
     }
 )
