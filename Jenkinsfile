@@ -26,12 +26,12 @@ pipeline {
                         }
                     },
                     "win64" : {
-                        node any {
+                        node('any') {
                             echo "win64"
                         }
                     },
                     "android" : {
-                        node any {
+                        node('any') {
                             echo "android"
                         }
                     }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 parallel (
                     'unit' : {
-                        node any {
+                        node('any') {
                             dir('unit') {
                                 unstash 'result'
                                 pwd()
@@ -56,7 +56,7 @@ pipeline {
                         }
                     },
                     'acceptance' : {
-                        node any {
+                        node('any') {
                             dir('acceptance') {
                                 unstash 'result-test'
                                 pwd()
