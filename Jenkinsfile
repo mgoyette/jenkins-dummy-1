@@ -7,19 +7,16 @@ pipeline {
                 echo 'Building..'
             }
         }
-        stage('Test-unit') {
+        stage("Testing") {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Test-accept') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Test-else') {
-            steps {
-                echo 'Testing..'
+                parallel (
+                    "Unit" : {
+                        //do some stuff
+                    },
+                    "Acceptance" : {
+                        // Do some other stuff in parallel
+                    }
+                )
             }
         }
         stage('Deploy') {
