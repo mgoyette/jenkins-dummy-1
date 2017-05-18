@@ -66,7 +66,7 @@ pipeline {
                     'call' : {
                         script {
                             try {
-                                unstash 'result-test123'
+                                unstash 'result-test'
                                 echo 'call-test'
                             }
                             catch(all) {
