@@ -32,6 +32,13 @@ pipeline {
                 )
             }
         }
+        stage("Run libstack unit tests") {
+            agent any
+            steps {
+                unstash 'result'
+                echo 'running tests'
+            }
+        }
         stage("build stacksystemtest") {
             agent any
             steps {
@@ -47,6 +54,7 @@ pipeline {
                     'register' : { 
                         script {
                             try {
+                                unstash 'result-test'
                                 echo 'register-test'
                             }
                             catch(all) {
@@ -58,6 +66,7 @@ pipeline {
                     'call' : {
                         script {
                             try {
+                                unstash 'result-test'
                                 echo 'call-test'
                             }
                             catch(all) {
@@ -69,7 +78,7 @@ pipeline {
                 )
             }
         }
-        stage("execute test") {
+        stage("execute acceptance tests") {
             agent any
             when {
                 expression {
@@ -77,26 +86,11 @@ pipeline {
                 }
             }
             steps {
-                parallel (
-                    'unit' : {
-                        node('master') {
-                            deleteDir()
-                            dir('unit') {
-                                unstash 'result'
-                                sh 'ls'
-                            }
-                        }
-                    },
-                    'acceptance' : {
-                        node('master') {
-                            deleteDir()
-                            dir('acceptance') {
-                                unstash 'result-test'
-                                sh 'ls'
-                            }
-                        }
-                    }
-                )
+                deleteDir()
+                dir('acceptance') {
+                    unstash 'result-test'
+                    sh 'ls'
+                }
             }
         }
     }
