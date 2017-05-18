@@ -40,18 +40,28 @@ parallel (
     "unit-test" : {
         node {
             dir('unit') {
-                unstash 'result'
-                pwd
-                sh 'ls'
+                try {
+                    unstash 'result'
+                    pwd
+                    sh 'ls'
+                }
+                finally {
+                    deleteDir()
+                }
             }
         }
     },
     "acceptance-test" : {
         node {
             dir('acceptance') {
-                unstash 'result-test'
-                pwd
-                sh 'ls'
+                try {
+                    unstash 'result-test'
+                    pwd
+                    sh 'ls'
+                }
+                finally {
+                    deleteDir()
+                }
             }
         }
     }
