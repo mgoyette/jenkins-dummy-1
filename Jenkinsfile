@@ -1,38 +1,33 @@
-node('master') {
-    stage('Setup') {
-        echo 'Preparing multiple builds'
+parallel {
+    "win32" : {
+        node('master') {
+            echo "win32"
+            sh "touch ex.txt"
+            stash 'result'
+        }
+    }
+    "win64" : {
+        node('master') {
+            echo "win64"
+        }
+    }
+    "android" : {
+        node('master') {
+            echo "android"
+        }
     }
 }
-parallel (
-    "web" : {
-        node('master') {
-            stage('Build') {
-                echo 'Build web application'
-            }
-            stage('Test') {
-                echo 'Selenium Tests'
-            }
-        }
-    },
-    "embedded" : {
-        node('master') {
-            stage('Build') {
-                echo 'Build embedded solution'
-            }
-        }
-        stage('Test') {
-            parallel (
-                "test-lowend" : {
-                    node('master') {
-                        echo 'Test lowend embedded'
-                    }
-                }, 
-                "test-highend" : {
-                    node('master') {
-                        echo 'Build highend embedded'
-                    }
-                }
-            )
+parallel {
+    "unit-test" : {
+        node("master") {
+            unstash 'result'
+            sh 'ls'
         }
     }
-)
+    "acceptance-test" : {
+        node("master") { 
+            unstash 'result'
+            sh 'ls'
+        }
+    }
+}
