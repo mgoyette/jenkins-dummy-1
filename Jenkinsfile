@@ -4,7 +4,7 @@ pipeline {
     agent none
     stages {
         stage("build") {
-            parallel {
+            parallel (
                 'win32' : {
                     node {
                         dir('win32') {
@@ -34,10 +34,10 @@ pipeline {
                         echo "android"
                     }
                 }
-            }
+            )
         }
         stage("test") {
-            parallel {
+            parallel (
                 'unit' : {
                     node {
                         dir('unit') {
@@ -66,7 +66,7 @@ pipeline {
                         }
                     }
                 }
-            }
+            )
         }
     }
 )
