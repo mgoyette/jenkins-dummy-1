@@ -46,7 +46,6 @@ pipeline {
                             deleteDir()
                             dir('unit') {
                                 unstash 'result'
-                                pwd()
                                 sh 'ls'
                             }
                         }
@@ -56,7 +55,7 @@ pipeline {
                             deleteDir()
                             dir('acceptance') {
                                 unstash 'result-test'
-                                pwd()
+                                sh 'ls'
                             }
                         }
                     }
