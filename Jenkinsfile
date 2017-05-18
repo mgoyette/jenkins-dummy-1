@@ -14,11 +14,6 @@ pipeline {
                                 echo 'win32'
                                 sh 'touch ex.txt'
                                 stash 'result'
-
-                                echo 'win32-tests'
-                                unstash 'result'
-                                sh 'touch ex2.txt'
-                                stash 'result-test'
                             }
                         }
                     },
@@ -35,6 +30,13 @@ pipeline {
                         }
                     }
                 )
+            }
+        }
+        stage("build test") {
+            steps {
+                unstash 'result'
+                sh 'touch ex2.txt'
+                stash 'result-test'
             }
         }
         stage("test") {
