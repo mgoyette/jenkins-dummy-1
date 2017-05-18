@@ -13,15 +13,19 @@ parallel (
                 stash 'result-test'
             }
         }
-    }
+    },
     "win64" : {
         node {
-            echo "win64"
+            stage('build') {
+                echo "win64"
+            }
         }
-    }
+    },
     "android" : {
         node {
-            echo "android"
+            stage('build') {
+                echo "android"
+            }
         }
     }
 )
@@ -31,7 +35,7 @@ parallel (
             unstash 'result'
             sh 'ls'
         }
-    }
+    },
     "acceptance-test" : {
         node { 
             unstash 'result-test'
