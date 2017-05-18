@@ -1,21 +1,23 @@
 parallel (
     'win32' : {
         node {
-            try {
-                stage('build') {
-                    echo 'win32'
-                    sh 'touch ex.txt'
-                    stash 'result'
+            dir('build-win32') {
+                try {
+                    stage('build') {
+                        echo 'win32'
+                        sh 'touch ex.txt'
+                        stash 'result'
+                    }
+                    stage('build-tests') {
+                        echo 'win32-tests'
+                        unstash 'result'
+                        sh 'touch ex2.txt'
+                        stash 'result-test'
+                    }
                 }
-                stage('build-tests') {
-                    echo 'win32-tests'
-                    unstash 'result'
-                    sh 'touch ex2.txt'
-                    stash 'result-test'
+                finally {
+                    deleteDir()
                 }
-            }
-            finally {
-                deleteDir
             }
         }
     },
