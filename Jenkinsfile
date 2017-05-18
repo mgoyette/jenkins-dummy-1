@@ -42,7 +42,7 @@ parallel (
     "acceptance-test" : {
         node {
             dir('acceptance') {
-                unstash 'result-test
+                unstash 'result-test'
                 pwd
                 sh 'ls'
             }
