@@ -50,6 +50,7 @@ pipeline {
                                 echo 'register-test'
                             }
                             catch(all) {
+                                echo 'an error occured, setting to UNSTABLE'
                                 currentBuild.result = 'UNSTABLE'
                             }
                         }
@@ -60,17 +61,12 @@ pipeline {
                                 unstash 'none'
                             }
                             catch(all) {
+                                echo 'an error occured, setting to UNSTABLE'
                                 currentBuild.result = 'UNSTABLE'
                             } 
                         }
-                    },
+                    }
                 )
-                
-            }
-            post {
-                failure {
-                    echo "ERROR"
-                }
             }
         }
         stage("execute test") {
