@@ -50,7 +50,9 @@ pipeline {
             }
             post {
                 failure {
-                    currentBuild.result = "UNSTABLE"
+                    script {
+                        currentBuild.result = "UNSTABLE"
+                    }
                 }
             }
         }
