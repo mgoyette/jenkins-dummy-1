@@ -3,6 +3,20 @@
 pipeline {
     agent none
     stages {
+        stage('foo') {
+            parallel {
+                stage('first') {
+                    steps {
+                        echo "First branch"
+                    }
+                }
+                stage('second') {
+                    steps {
+                        echo "Second branch"
+                    }
+                }
+            }
+        }
         stage("build") {
             steps {
                 parallel (
