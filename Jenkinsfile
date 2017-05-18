@@ -7,17 +7,17 @@ pipeline {
                 echo 'Building..'
             }
         }
-        stage('Test-unit', wait:false) {
+        stage('Test-unit') {
             steps {
                 echo 'Testing..'
             }
         }
-        stage('Test-accept', wait:false) {
+        stage('Test-accept') {
             steps {
                 echo 'Testing..'
             }
         }
-        stage('Test-else', wait:false) {
+        stage('Test-else') {
             steps {
                 echo 'Testing..'
             }
