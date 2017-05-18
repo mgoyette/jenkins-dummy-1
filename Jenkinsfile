@@ -1,28 +1,38 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('build') {
-            steps {
-                echo 'Building..'
+node('master') {
+    stage('Setup') {
+        echo 'Preparing multiple builds'
+    }
+}
+parallel (
+    "web" : {
+        node('master') {
+            stage('Build') {
+                echo 'Build web application'
+            }
+            stage('Test') {
+                echo 'Selenium Tests'
             }
         }
-        stage("Testing") {
+    },
+    "embedded" : {
+        node('master') {
+            stage('Build') {
+                echo 'Build embedded solution'
+            }
+        }
+        stage('Test') {
             parallel (
-                "Unit" : {
-                    echo "unit"
-                    //do some stuff
-                },
-                "Acceptance" : {
-                    echo "acceptance"
-                    // Do some other stuff in parallel
+                "test-lowend" : {
+                    node('master') {
+                        echo 'Test lowend embedded'
+                    }
+                }, 
+                "test-highend" : {
+                    node('master') {
+                        echo 'Build highend embedded'
+                    }
                 }
             )
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
-}
+)
