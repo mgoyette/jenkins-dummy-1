@@ -19,13 +19,6 @@ pipeline {
                                 stash 'result-test'
                             }
                         }
-                        post {
-                            always {
-                                dir('win32') {
-                                    sh 'ls'
-                                }
-                            }
-                        }
                     },
                     "win64" : {
                         node('master') {
@@ -39,6 +32,13 @@ pipeline {
                     }
                 )
             }
+            post {
+                always {
+                    dir('win32') {
+                        deleteDir()
+                    }
+                }
+            }
         }
         stage("test") {
             steps {
@@ -51,13 +51,6 @@ pipeline {
                                 sh 'ls'
                             }
                         }
-                        post {
-                            always {
-                                dir('unit') {
-                                    sh 'ls'
-                                }
-                            }
-                        }
                     },
                     'acceptance' : {
                         node('master') {
@@ -66,15 +59,13 @@ pipeline {
                                 pwd()
                             }
                         }
-                        post {
-                            always {
-                                dir('acceptance') {
-                                    sh 'ls'
-                                }
-                            }
-                        }
                     }
                 )
+            }
+            post {
+                always {
+                    deleteDir()
+                }
             }
         }
     }
