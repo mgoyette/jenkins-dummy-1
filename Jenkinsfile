@@ -3,25 +3,11 @@
 pipeline {
     agent none
     stages {
-        stage('foo') {
-            parallel {
-                stage('first') {
-                    steps {
-                        echo "First branch"
-                    }
-                }
-                stage('second') {
-                    steps {
-                        echo "Second branch"
-                    }
-                }
-            }
-        }
         stage("build") {
             steps {
                 parallel (
                     'win32' : {
-                        node('any') {
+                        node('master') {
                             dir('win32') {
                                 echo 'win32'
                                 sh 'touch ex.txt'
@@ -33,19 +19,14 @@ pipeline {
                                 stash 'result-test'
                             }
                         }
-                        post {
-                            always {
-                                deleteDir()
-                            }
-                        }
                     },
                     "win64" : {
-                        node('any') {
+                        node('master') {
                             echo "win64"
                         }
                     },
                     "android" : {
-                        node('any') {
+                        node('master') {
                             echo "android"
                         }
                     }
@@ -56,7 +37,7 @@ pipeline {
             steps {
                 parallel (
                     'unit' : {
-                        node('any') {
+                        node('master') {
                             dir('unit') {
                                 unstash 'result'
                                 pwd()
@@ -70,7 +51,7 @@ pipeline {
                         }
                     },
                     'acceptance' : {
-                        node('any') {
+                        node('master') {
                             dir('acceptance') {
                                 unstash 'result-test'
                                 pwd()
